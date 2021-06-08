@@ -26,11 +26,12 @@ botName = query_params["bot"][0] if "bot" in query_params else "bss"
 
 
 
-botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mb":"ML Bot",
-"bnfmon":"BNF ORB"}
+botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB"}
 
 botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":200000,"orb2pm":200000,"pcr":200000,"lapp":200000,"bss":200000,"nss":200000,"bos":200000,"grbo":100000,"bssr":200000,"bnfmon":100000,"mlb":400000}
 
+
+eq_bots=["orb","rsi","sh","it"]
 botFullName=botNameDic[botName]
 botCapital=botCapitalDic[botName]
 strat_pnl_Df=pnl_df[[botFullName]]
@@ -54,8 +55,9 @@ drawdown_df=strat_df.copy()
 drawdown_df.reset_index(drop=True,inplace=True)
 drawdown_df['max_value_so_far']=drawdown_df['cum_pnl'].cummax()
 drawdown_df['drawdown']=drawdown_df['cum_pnl']-drawdown_df['max_value_so_far']
+max_drawdown=drawdown_df['drawdown'].min()
 ##Strategy statistics
-stats_Df=pd.DataFrame(columns=["Total Days","Winning Days","Losing Days","Win Ratio(%)","Max Profit","Max Loss","Max Drawdown","Average Profit on Win Days","Average Profit on loss days","Average Profit Per day","Net profit","net Returns (%)"])
+stats_Df=pd.DataFrame(columns=["Total Days","Winning Days","Losing Days","Winning Accuracy(%)","Max Profit","Max Loss","Max Drawdown","Average Profit on Win Days","Average Profit on loss days","Average Profit Per day","Net profit","net Returns (%)"])
 total_days=len(strat_df)
 win_df=strat_df[strat_df[botFullName+'_adj_PnL'].astype('float')>0]
 lose_df=strat_df[strat_df[botFullName+'_adj_PnL'].astype('float')<0]
@@ -68,7 +70,7 @@ win_ratio=win_days*1.0/lose_days
 max_profit=strat_df[botFullName+'_adj_PnL'].max()
 max_loss=strat_df[botFullName+'_adj_PnL'].min()
 
-max_drawdown=0
+# max_drawdown=0
 win_average_profit=win_df[botFullName+'_adj_PnL'].sum()/win_days
 loss_average_profit=lose_df[botFullName+'_adj_PnL'].sum()/lose_days
 
@@ -101,11 +103,14 @@ month_groups=strat_df.groupby('month',sort=False)['PNL'].sum()
 strat_df=strat_df.reindex(strat_df.index[::-1])
 
 
-
+if botName in eq_bots:
+    capital_used_appendum=''
+else:
+    capital_used_appendum=' per Lot'
 
 st.title("**♟**SQUAREOFF BOTS PERFORMANCE**♟**")
 st.write("**LIVE PERFORMANCE OF "+botFullName+"**")
-st.write("**[Capital used is "+str(botCapital)+"]**")
+st.write("**[Capital used is "+str(botCapital)+capital_used_appendum+"]**")
 st.write("Net ROI : "+str(results_row[-1])+"%")
 st.write("**Statistics**")
 st.table(t_stats_Df)
