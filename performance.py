@@ -66,7 +66,7 @@ noTrade_df=strat_df[strat_df[botFullName+'_adj_PnL'].astype('float')==0]
 win_days=len(win_df)
 lose_days=len(lose_df)
 
-win_ratio=win_days*1.0/lose_days
+win_ratio=win_days*100.0/(lose_days+win_days)
 max_profit=strat_df[botFullName+'_adj_PnL'].max()
 max_loss=strat_df[botFullName+'_adj_PnL'].min()
 
