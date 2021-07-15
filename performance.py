@@ -106,11 +106,15 @@ strat_df=strat_df.reindex(strat_df.index[::-1])
 if botName in eq_bots:
     capital_used_appendum=''
 else:
+    
     capital_used_appendum=' per Lot'
+   
 
 st.title("**♟**SQUAREOFF BOTS PERFORMANCE**♟**")
 st.write("**LIVE PERFORMANCE OF "+botFullName+"**")
 st.write("**[Capital used is "+str(botCapital)+capital_used_appendum+"]**")
+if botCapital>50000:
+    st.write("**(Capital used from July 2021 is "+str(2*botCapital)+capital_used_appendum+"]**")
 st.write("Net ROI : "+str(results_row[-1])+"%")
 st.write("**Statistics**")
 st.table(t_stats_Df)
