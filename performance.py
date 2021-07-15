@@ -114,7 +114,7 @@ st.title("**♟**SQUAREOFF BOTS PERFORMANCE**♟**")
 st.write("**LIVE PERFORMANCE OF "+botFullName+"**")
 st.write("**[Capital used is "+str(botCapital)+capital_used_appendum+"]**")
 if botCapital>50000:
-    st.write("**(Capital used from July 2021 is "+str(1.5*botCapital)+capital_used_appendum+")**")
+    st.write("**(Capital used before July 2021 is "+str(int(botCapital/1.5))+capital_used_appendum+")**")
 st.write("Net ROI : "+str(results_row[-1])+"%")
 st.write("**Statistics**")
 st.table(t_stats_Df)
