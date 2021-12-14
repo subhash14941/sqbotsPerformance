@@ -28,7 +28,7 @@ botName = query_params["bot"][0] if "bot" in query_params else "bss"
 
 botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"Multi Short Straddle (BNF)","mssn":"Multi Short Straddle(NF)"}
 
-botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":300000,"orb2pm":300000,"pcr":300000,"lapp":300000,"bss":300000,"nss":300000,"bos":300000,"grbo":150000,"bssr":300000,"bnfmon":150000,"mlb":600000,"mss":300000,"mssn":300000}
+botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":300000,"orb2pm":300000,"pcr":300000,"lapp":300000,"bss":300000,"nss":300000,"bos":300000,"grbo":150000,"bssr":300000,"bnfmon":150000,"mlb":400000,"mss":300000,"mssn":300000}
 
 
 eq_bots=["orb","rsi","sh","it"]
@@ -113,7 +113,7 @@ else:
 st.title("**♟**SQUAREOFF BOTS PERFORMANCE**♟**")
 st.write("**LIVE PERFORMANCE OF "+botFullName+"**")
 st.write("**[Capital used is "+str(botCapital)+capital_used_appendum+"]**")
-if botCapital>50000:
+if botCapital>50000 and botName!='mlb':
     st.write("**(Capital used before July 2021 is "+str(int(botCapital/1.5))+capital_used_appendum+")**")
 st.write("Net ROI : "+str(results_row[-1])+"%")
 st.write("**Statistics**")
